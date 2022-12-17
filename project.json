@@ -9,7 +9,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/client",
+        "outputPath": "dist/client/browser",
         "index": "./src/index.html",
         "main": "./src/main.ts",
         "polyfills": ["zone.js"],
@@ -41,6 +41,14 @@
               "with": "src/main.reusable.ts"
             }
           ]
+        },
+        "standalone": {
+          "fileReplacements": [
+            {
+              "replace": "src/main.ts",
+              "with": "src/main.standalone.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -53,6 +61,9 @@
         },
         "reusable": {
           "browserTarget": "client:build:reusable"
+        },
+        "standalone": {
+          "browserTarget": "client:build:standalone"
         }
       },
       "defaultConfiguration": "development"
@@ -77,6 +88,64 @@
         "jestConfig": "jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "server": {
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "outputPath": "dist/client/server",
+        "main": "server.ts",
+        "tsConfig": "tsconfig.server.json",
+        "optimization": false,
+        "sourceMap": true,
+        "extractLicenses": false,
+        "inlineStyleLanguage": "scss",
+        "vendorChunk": true
+      },
+      "configurations": {
+        "manual": {
+          "fileReplacements": [
+            {
+              "replace": "src/main.ts",
+              "with": "src/main.manual.ts"
+            }
+          ]
+        },
+        "reusable": {
+          "fileReplacements": [
+            {
+              "replace": "src/main.ts",
+              "with": "src/main.reusable.ts"
+            }
+          ]
+        },
+        "standalone": {
+          "fileReplacements": [
+            {
+              "replace": "src/main.ts",
+              "with": "src/main.standalone.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "manual"
+    },
+    "serve-ssr": {
+      "executor": "@nguniversal/builders:ssr-dev-server",
+      "configurations": {
+        "manual": {
+          "browserTarget": "client:build:manual",
+          "serverTarget": "client:server:manual"
+        },
+        "reusable": {
+          "browserTarget": "client:build:reusable",
+          "serverTarget": "client:server:reusable"
+        },
+        "standalone": {
+          "browserTarget": "client:build:standalone",
+          "serverTarget": "client:server:standalone"
+        }
+      },
+      "defaultConfiguration": "manual"
     }
   },
   "tags": []
